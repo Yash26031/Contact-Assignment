@@ -1,0 +1,253 @@
+import { useFormik } from "formik";
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { Add_Contact } from "../Actions/Action";
+import { validationSchema } from "../FormikInput";
+
+const EditContact = () => {
+  const [data, setData] = useState([]);
+  const [update, setUpdate] = useState(false);
+  const myArray = useSelector((s) => s.contactList);
+  const [feild, setFeild] = useState({
+    name: "",
+    phone: "",
+    type: "",
+    image: "",
+    whats_app: "",
+  });
+
+  var initialValues = {
+    name: data[0]?.name,
+    phone: data[0]?.phone,
+    type: data[0]?.type,
+    image: data[0]?.image,
+    whats_app: data[0]?.whats_app,
+  };
+  const { index } = useParams();
+
+  console.log("myArray is", myArray);
+
+  const compare = () => {
+    let compareData = myArray.filter((e, ind) => {
+      return ind == Number(index);
+    });
+    console.log("e is", compareData);
+    // setFeild({
+    //   name: compareData[0]?.name,
+    //   phone: compareData[0]?.phone,
+    //   type: compareData[0]?.type,
+    //   image: compareData[0]?.image,
+    //   whats_app: compareData[0]?.whats_app,
+    // });
+    var initialValues = {
+      name: compareData[0]?.name,
+      phone: compareData[0]?.phone,
+      type: compareData[0]?.type,
+      image: compareData[0]?.image,
+      whats_app: compareData[0]?.whats_app,
+    };
+    setData(compareData);
+  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (myArray == null || myArray.length == 0) {
+      let getListCookie = Cookies.get("list");
+      // console.log(getListCookie);
+      if (getListCookie) {
+        dispatch(Add_Contact(JSON?.parse(Cookies.get("list"))));
+      }
+    }
+  }, [myArray]);
+
+  useEffect(() => {
+    compare();
+  }, [myArray]);
+
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: validationSchema,
+      onSubmit: (values) => {
+        setUpdate(true);
+        console.log(values);
+      },
+    });
+
+  console.log("data is ", feild);
+  return (
+    <div className="block p-6 rounded-lg shadow-lg m-auto mt-5 bg-white max-w-sm">
+      <form onSubmit={handleSubmit}>
+        <div className="flex justify-center">
+          <img
+            className="w-32 h-32 border-2 border-black border-solid rounded-full object-cover"
+            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWFsZSUyMGhlYWRzaG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+          />
+        </div>
+        <div className="form-group mb-6">
+          <label
+            for="name"
+            className="form-label inline-block mb-2 text-gray-700"
+          >
+            Full Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={values.name}
+            defaultValue={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className="form-control
+    block
+    w-full
+    px-3
+    py-1.5
+    text-base
+    font-normal
+    text-gray-700
+    bg-white bg-clip-padding
+    border border-solid border-gray-300
+    rounded
+    transition
+    ease-in-out
+    m-0
+    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            id="name"
+            placeholder="Enter Contact Name"
+          />
+          <small id="name" className="block mt-1 text-xs text-gray-600">
+            We'll never share your contact with anyone else.
+          </small>
+          {errors.name && touched.name ? (
+            <span className="text-red-500 ">{errors.name}</span>
+          ) : null}
+        </div>
+        <div className="form-group mb-6">
+          <label
+            htmlFor="phone"
+            className="form-label inline-block mb-2 text-gray-700"
+          >
+            Phone
+          </label>
+          <input
+            type="text"
+            name="phone"
+            className="form-control
+    block
+    w-full
+    px-3
+    py-1.5
+    text-base
+    font-normal
+    text-gray-700
+    bg-white bg-clip-padding
+    border border-solid border-gray-300
+    rounded
+    transition
+    ease-in-out
+    m-0
+    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            id="phone"
+            placeholder="Enter Phone Number"
+            value={values.phone}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          {errors.phone && touched.phone ? (
+            <span className="text-red-500 ">{errors.phone}</span>
+          ) : null}
+        </div>
+        <div className="flex">
+          <div className="mb-3 xl:w-96">
+            <label
+              htmlFor="type"
+              className="form-label inline-block mb-2 text-gray-700"
+            >
+              Type
+            </label>
+            <select
+              value={values.type}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="form-select appearance-none
+  block
+  w-full
+  px-3
+  py-1.5
+  text-base
+  font-normal
+  text-gray-700
+  bg-white bg-clip-padding bg-no-repeat
+  border border-solid border-gray-300
+  rounded
+  transition
+  ease-in-out
+  m-0
+  focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="type"
+            >
+              <option selected>Select Type</option>
+              <option value="Personal">Personal</option>
+              <option value="Office">Office</option>
+            </select>
+            {/* {errors.type && touched.type ? (
+        <span className="text-red-500 ">{errors.type}</span>
+      ) : null} */}
+          </div>
+        </div>
+        <div className="form-group form-check mb-6">
+          <input
+            type="checkbox"
+            name="checkbox"
+            className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+            id="checkbox"
+            value={values.checkbox}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <label
+            className="form-check-label inline-block text-gray-800"
+            htmlFor="checkbox"
+          >
+            Is this a whats'app contact ?
+          </label>
+        </div>
+        {update ? (
+          <div className="flex justify-center mb-2">
+            <span className="text-lg border w-full text-center py-2 px-3 border-green-700 text-green-500 font-semibold">
+              Contact Edit Successfully..
+            </span>
+          </div>
+        ) : null}
+        <button
+          type="submit"
+          className="
+  w-full
+  px-6
+  py-2.5
+  bg-blue-600
+  text-white
+  font-medium
+  text-xs
+  leading-tight
+  uppercase
+  rounded
+  shadow-md
+  hover:bg-blue-700 hover:shadow-lg
+  focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+  active:bg-blue-800 active:shadow-lg
+  transition
+  duration-150
+  ease-in-out"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default EditContact;
