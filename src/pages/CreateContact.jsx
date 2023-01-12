@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Add_Contact } from "../Actions/Action";
+import { Add_Contact } from "../actions/Action";
 import { validationSchema } from "../FormikInput";
 
 export const initialValues = {
