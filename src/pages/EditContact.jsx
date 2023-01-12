@@ -98,6 +98,7 @@ const EditContact = () => {
             // });
             // setProductList(productList);
             Cookies.set("list", JSON.stringify(b));
+            Window.location.reload();
           }
         }
       },

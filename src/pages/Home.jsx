@@ -26,6 +26,7 @@ const Home = () => {
     console.log("remove", remove);
     // Cookies.remove("list");
     Cookies.set("list", JSON.stringify(remove));
+    setShowModal(false);
   };
 
   useEffect(() => {
