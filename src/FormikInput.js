@@ -11,5 +11,5 @@ export const validationSchema = object().shape({
     .max(10, "Too Long")
     .required("Phone Required"),
   //   type: string().required("Please Select Type"),
-  //   image: string().required("Photo Required"),
+  image: string().url().required("URL Required"),
 });

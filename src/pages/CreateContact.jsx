@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { Add_Contact } from "../actions/Action";
 import { validationSchema } from "../FormikInput";
 
@@ -23,7 +24,7 @@ const CreateContact = () => {
       validationSchema: validationSchema,
       onSubmit: (values) => {
         console.log(values.checkbox);
-        if ((values.checkbox = true)) {
+        if (values.checkbox) {
           setWhatsApp("Yes");
         } else {
           setWhatsApp("No");
@@ -40,8 +41,7 @@ const CreateContact = () => {
             name: values.name,
             phone: values.phone,
             type: values.type,
-            image:
-              "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWFsZSUyMGhlYWRzaG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+            image: values.image,
             whats_app: whatsApp,
           });
 
@@ -52,8 +52,7 @@ const CreateContact = () => {
             name: values.name,
             phone: values.phone,
             type: values.type,
-            image:
-              "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWFsZSUyMGhlYWRzaG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+            image: values.image,
             whats_app: whatsApp,
           });
           Cookies.set("list", JSON.stringify(itemList));
@@ -65,12 +64,12 @@ const CreateContact = () => {
   return (
     <div className="block p-6 rounded-lg shadow-lg m-auto mt-5 bg-white max-w-sm">
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <img
             className="w-32 h-32 border-2 border-black border-solid rounded-full object-cover"
             src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWFsZSUyMGhlYWRzaG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
           />
-        </div>
+        </div> */}
         <div className="form-group mb-6">
           <label
             for="name"
@@ -142,6 +141,41 @@ const CreateContact = () => {
           />
           {errors.phone && touched.phone ? (
             <span className="text-red-500 ">{errors.phone}</span>
+          ) : null}
+        </div>
+        <div className="form-group mb-6">
+          <label
+            htmlFor="phone"
+            className="form-label inline-block mb-2 text-gray-700"
+          >
+            Image URL
+          </label>
+          <input
+            type="text"
+            name="image"
+            className="form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+            id="phone"
+            placeholder="Enter Image URL"
+            value={values.image}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          {errors.image && touched.image ? (
+            <span className="text-red-500 ">{errors.image}</span>
           ) : null}
         </div>
         <div className="flex">
@@ -229,6 +263,32 @@ const CreateContact = () => {
         >
           Save
         </button>
+        <Link to="/">
+          <button
+            type="submit"
+            className="
+  w-full
+  px-6
+  mt-2
+  py-2.5
+  bg-gray-300
+  text-black
+  font-medium
+  text-xs
+  leading-tight
+  uppercase
+  rounded
+  shadow-md
+  hover:bg-blue-200 hover:shadow-lg
+  focus:bg-blue-200 focus:shadow-lg focus:outline-none focus:ring-0
+  active:bg-blue-300 active:shadow-lg
+  transition
+  duration-150
+  ease-in-out"
+          >
+            Cancel
+          </button>
+        </Link>
       </form>
     </div>
   );
