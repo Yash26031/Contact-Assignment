@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Add_Contact, Dlt_Contact } from "../Actions/Action";
+import { Add_Contact, Dlt_Contact } from "../actions/Action";
 import DeleteModal from "../components/DeleteModal";
 
 const Home = () => {
@@ -111,7 +111,7 @@ const Home = () => {
         <div className="h-screen">
           {" "}
           <h2 className="text-center font-serif  uppercase text-4xl xl:text-5xl">
-            Please Save Contact...
+            Please Add Contact...
           </h2>
           <div className="flex justify-center mt-5">
             <Link to="add-contact">

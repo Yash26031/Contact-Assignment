@@ -18,13 +18,13 @@ const EditContact = () => {
     whats_app: "",
   });
 
-  var initialValues = {
-    name: data[0]?.name,
-    phone: data[0]?.phone,
-    type: data[0]?.type,
-    image: data[0]?.image,
-    whats_app: data[0]?.whats_app,
-  };
+  // var initialValues = {
+  //   name: data[0]?.name,
+  //   phone: data[0]?.phone,
+  //   type: data[0]?.type,
+  //   image: data[0]?.image,
+  //   whats_app: data[0]?.whats_app,
+  // };
   const { index } = useParams();
 
   console.log("myArray is", myArray);
@@ -41,13 +41,7 @@ const EditContact = () => {
     //   image: compareData[0]?.image,
     //   whats_app: compareData[0]?.whats_app,
     // });
-    var initialValues = {
-      name: compareData[0]?.name,
-      phone: compareData[0]?.phone,
-      type: compareData[0]?.type,
-      image: compareData[0]?.image,
-      whats_app: compareData[0]?.whats_app,
-    };
+
     setData(compareData);
   };
   const dispatch = useDispatch();
@@ -68,11 +62,44 @@ const EditContact = () => {
 
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
-      initialValues: initialValues,
+      initialValues: {
+        name: data[0]?.name,
+        phone: data[0]?.phone,
+        type: data[0]?.type,
+        image: data[0]?.image,
+        whats_app: data[0]?.whats_app,
+      },
       validationSchema: validationSchema,
       onSubmit: (values) => {
         setUpdate(true);
         console.log(values);
+        var itemList = [];
+        let a = Cookies.get("list");
+        if (a != undefined) {
+          var b = JSON.parse(a);
+          let c = b.findIndex((item, ind) => ind == Number(index));
+          // console.log("c is ", c);
+          if (c !== -1) {
+            b[c]["name"] = values.name;
+            b[c]["phone"] = values.phone;
+            b[c]["type"] = values.type;
+            b[c]["whats_app"] = values.whats_app;
+
+            // b.map((key, index) => {
+            //   // console.log("dgdehhh", productList);
+            //   itemList.push({
+            //     name: values.name,
+            //     phone: values.phone,
+            //     type: values.type,
+            //     image:
+            //       "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWFsZSUyMGhlYWRzaG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+            //     whats_app: "Yes",
+            //   });
+            // });
+            // setProductList(productList);
+            Cookies.set("list", JSON.stringify(b));
+          }
+        }
       },
     });
 
