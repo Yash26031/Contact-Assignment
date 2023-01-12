@@ -45,6 +45,9 @@ const EditContact = () => {
     setData(compareData);
   };
   const dispatch = useDispatch();
+  const reload = () => {
+    window.location.reload();
+  };
 
   useEffect(() => {
     if (myArray == null || myArray.length == 0) {
@@ -98,9 +101,11 @@ const EditContact = () => {
             // });
             // setProductList(productList);
             Cookies.set("list", JSON.stringify(b));
-            Window.location.reload();
+            reload();
+            window.location.reload();
           }
         }
+        Window.location.reload();
       },
     });
 
