@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { ADD_CONTACT, DLT_FROM_LIST } from "./Actions/Action";
+import { ADD_CONTACT, DLT_FROM_LIST } from "./actions/Action";
 
 const initial_state = {
   contactList: [],
