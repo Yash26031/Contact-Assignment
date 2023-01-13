@@ -121,7 +121,7 @@ const EditContact = () => {
           // setProductList(productList);
           // Cookies.set("list", JSON.stringify(b));
           localStorage["list"] = JSON.stringify(b);
-          reload();
+          dispatch(Add_Contact(b));
         }
       }
     },
