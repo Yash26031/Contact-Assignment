@@ -17,20 +17,85 @@ export const initialValues = {
 const CreateContact = () => {
   const dispatch = useDispatch();
   const [whatsApp, setWhatsApp] = useState("");
+  const [image, setImage] = useState();
   const [update, setUpdate] = useState(false);
+
+  // const imageUrl = () => {
+  //   document.querySelector("#file1").addEventListener("change", function () {
+  //     const reader = new FileReader();
+
+  //     reader.addEventListener("load", () => {
+  //       console.log(reader.result);
+  //       setImage(reader.result);
+  //     });
+  //     reader.readAsDataURL(this.files[0]);
+  //   });
+  // };
+
+  const imageUpload = (e) => {
+    const file = e.target.files[0];
+    // console.log(file);
+    getBase64(file).then((base64) => {
+      // console.log(base64);
+      setImage(base64);
+      localStorage["fileBase64"] = base64;
+      console.debug("file stored", base64);
+    });
+  };
+
+  // console.log(image);
+
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
       initialValues: initialValues,
       validationSchema: validationSchema,
       onSubmit: (values) => {
-        console.log(values.checkbox);
         if (values.checkbox) {
           setWhatsApp("Yes");
         } else {
           setWhatsApp("No");
         }
+        console.log(values.checkbox);
+        // console.log(document.querySelector("#file1").files[0]);
+
+        // let base64code = "";
+
+        // const onLoad = (fileString) => {
+        //   this.base64code = fileString;
+        //   console.log(fileString);
+        // };
+        // const files = values.image;
+        // const file = files[0];
+
+        // const getbase64 = (file) => {
+        //   let reader = new FileReader();
+        //   reader.readAsDataURL(file);
+        //   reader.onload = () => {
+        //     onLoad(reader.result);
+        //   };
+        // };
+
+        // getbase64(file);
+
+        // setImage(this.base64code);
+        // imageUrl();
+
+        // var reader = new FileReader();
+        // reader.readAsDataURL(document.getElementById("file1").files[0]);
+        // console.log(reader.result);
+
         var itemList = [];
-        let a = Cookies.get("list");
+        // let a = Cookies.get("list");
+        let a = localStorage["list"];
         if (a != undefined) {
           var b = JSON.parse(a);
 
@@ -41,21 +106,22 @@ const CreateContact = () => {
             name: values.name,
             phone: values.phone,
             type: values.type,
-            image: values.image,
-            whats_app: whatsApp,
+            image: image,
+            whats_app: values?.checkbox ? "Yes" : "No",
           });
-
-          Cookies.set("list", JSON.stringify(i));
+          console.log("itemList", i);
+          localStorage["list"] = JSON.stringify(i);
           dispatch(Add_Contact(i));
         } else {
           itemList.push({
             name: values.name,
             phone: values.phone,
             type: values.type,
-            image: values.image,
-            whats_app: whatsApp,
+            image: image,
+            whats_app: values?.checkbox ? "Yes" : "No",
           });
-          Cookies.set("list", JSON.stringify(itemList));
+          console.log("itemList", itemList);
+          localStorage["list"] = JSON.stringify(itemList);
           dispatch(Add_Contact(itemList));
         }
         setUpdate(true);
@@ -151,8 +217,10 @@ const CreateContact = () => {
             Image URL
           </label>
           <input
-            type="text"
-            name="image"
+            type="file"
+            id="imageFile"
+            name="imageFile"
+            onChange={imageUpload}
             className="form-control
         block
         w-full
@@ -168,10 +236,8 @@ const CreateContact = () => {
         ease-in-out
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            id="phone"
             placeholder="Enter Image URL"
-            value={values.image}
-            onChange={handleChange}
+            // value={values.image}
             onBlur={handleBlur}
           />
           {errors.image && touched.image ? (

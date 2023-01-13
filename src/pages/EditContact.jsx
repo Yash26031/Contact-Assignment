@@ -67,17 +67,17 @@ const EditContact = () => {
 
   useEffect(() => {
     if (myArray == null || myArray.length == 0) {
-      let getListCookie = Cookies.get("list");
+      let getListCookie = localStorage["list"];
       // console.log(getListCookie);
       if (getListCookie) {
-        dispatch(Add_Contact(JSON?.parse(Cookies.get("list"))));
+        dispatch(Add_Contact(JSON?.parse(localStorage["list"])));
       }
     }
-  }, [myArray]);
+  }, []);
 
   useEffect(() => {
     compare();
-  }, [myArray]);
+  }, []);
 
   // console.log(data[0]);
 
@@ -92,9 +92,12 @@ const EditContact = () => {
       setUpdate(true);
       console.log(values);
       var itemList = [];
-      let a = Cookies.get("list");
+      // let a = Cookies.get("list");
+      let a = localStorage["list"];
+      console.log("a is ", a);
       if (a != undefined) {
         var b = JSON.parse(a);
+        console.log("b is ", b);
         let c = b.findIndex((item, ind) => ind == Number(index));
         // console.log("c is ", c);
         if (c !== -1) {
@@ -103,7 +106,7 @@ const EditContact = () => {
           b[c]["image"] = feild.image;
           b[c]["type"] = feild.type;
           b[c]["whats_app"] = feild.whats_app;
-
+          console.log("b is ", b);
           // b.map((key, index) => {
           //   // console.log("dgdehhh", productList);
           //   itemList.push({
@@ -116,12 +119,11 @@ const EditContact = () => {
           //   });
           // });
           // setProductList(productList);
-          Cookies.set("list", JSON.stringify(b));
+          // Cookies.set("list", JSON.stringify(b));
+          localStorage["list"] = JSON.stringify(b);
           reload();
-          window.location.reload();
         }
       }
-      Window.location.reload();
     },
   });
 
@@ -129,12 +131,12 @@ const EditContact = () => {
   return (
     <div className="block p-6 rounded-lg shadow-lg m-auto mt-5 bg-white max-w-sm">
       <form onSubmit={handleSubmit}>
-        {/* <div className="flex justify-center">
+        <div className="flex justify-center">
           <img
             className="w-32 h-32 border-2 border-black border-solid rounded-full object-cover"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWFsZSUyMGhlYWRzaG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            src={feild?.image}
           />
-        </div> */}
+        </div>
         <div className="form-group mb-6">
           <label
             for="name"
@@ -210,42 +212,7 @@ const EditContact = () => {
             <span className="text-red-500 ">{errors.phone}</span>
           ) : null} */}
         </div>
-        <div className="form-group mb-6">
-          <label
-            htmlFor="image"
-            className="form-label inline-block mb-2 text-gray-700"
-          >
-            Image URL
-          </label>
-          <input
-            type="text"
-            name="image"
-            className="form-control
-        block
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            id="image"
-            placeholder="Enter Image URL"
-            value={feild.image}
-            defaultValue={feild.image}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {/* {errors.image && touched.image ? (
-            <span className="text-red-500 ">{errors.image}</span>
-          ) : null} */}
-        </div>
+
         <div className="flex">
           <div className="mb-3 xl:w-96">
             <label

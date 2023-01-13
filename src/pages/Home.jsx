@@ -24,17 +24,18 @@ const Home = () => {
 
     dispatch(Dlt_Contact(remove));
     console.log("remove", remove);
-    // Cookies.remove("list");
-    Cookies.set("list", JSON.stringify(remove));
+
+    // Cookies.set("list", JSON.stringify(remove));
+    localStorage["list"] = JSON.stringify(remove);
     setShowModal(false);
   };
 
   useEffect(() => {
     if (myArray == null || myArray.length == 0) {
-      let getListCookie = Cookies.get("list");
+      let getListCookie = localStorage["list"];
       // console.log(getListCookie);
       if (getListCookie) {
-        dispatch(Add_Contact(JSON?.parse(Cookies.get("list"))));
+        dispatch(Add_Contact(JSON?.parse(localStorage["list"])));
       }
     }
   }, []);
