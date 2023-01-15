@@ -30,7 +30,7 @@ const CreateContact = () => {
     setTimeout(() => {
       // history.push("/");
       navigate("/");
-    }, 1000);
+    }, 3000);
   };
 
   // const imageUrl = () => {
@@ -51,7 +51,7 @@ const CreateContact = () => {
     getBase64(file).then((base64) => {
       // console.log(base64);
       setImage(base64);
-      localStorage["fileBase64"] = base64;
+      // localStorage["fileBase64"] = base64;
       console.debug("file stored", base64);
     });
   };
@@ -196,7 +196,7 @@ const CreateContact = () => {
             Phone
           </label>
           <input
-            type="text"
+            type="number"
             name="phone"
             className="form-control
         block
@@ -232,6 +232,7 @@ const CreateContact = () => {
           </label>
           <input
             type="file"
+            accept=".png,.jpeg"
             id="imageFile"
             name="imageFile"
             onChange={imageUpload}
@@ -300,7 +301,7 @@ const CreateContact = () => {
           <input
             type="checkbox"
             name="checkbox"
-            className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+            className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-full bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
             id="checkbox"
             value={values.checkbox}
             onChange={handleChange}

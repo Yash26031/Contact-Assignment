@@ -110,7 +110,7 @@ const Home = () => {
       ) : (
         <div className="h-screen">
           {" "}
-          <h2 className="text-center font-serif  uppercase text-4xl xl:text-5xl">
+          <h2 className="text-center font-serif  uppercase text-lg xl:text-3xl">
             Please Add Contact...
           </h2>
           <div className="flex justify-center mt-5">

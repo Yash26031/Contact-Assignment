@@ -7,7 +7,7 @@ const Navbar = () => {
     <div className="flex items-center justify-between p-4 bg-gray-500 w-full">
       <Link
         to="/"
-        className="text-3xl font-bold hover:text-black transition duration-150 ease-in-out flex text-white cursor-pointer"
+        className="text-lg md:text-3xl font-bold hover:text-black transition duration-150 ease-in-out flex text-white cursor-pointer"
       >
         Home{" "}
         <span className="mt-1 ml-2">
@@ -17,10 +17,10 @@ const Navbar = () => {
       <div>
         <Link
           to="add-contact"
-          className="pr-4 flex text-white hover:text-black transition duration-150 ease-in-out text-lg font-semibold"
+          className="pr-4 flex text-white md:text-3xl hover:text-black transition duration-150 ease-in-out text-lg font-semibold"
         >
           Add Contact
-          <AiOutlineFileAdd className="mt-1 ml-2" size={20} />
+          <AiOutlineFileAdd className="mt-1 ml-2" />
         </Link>
       </div>
     </div>
