@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Add_Contact } from "../actions/Action";
 import { validationSchema } from "../FormikInput";
 
@@ -19,6 +19,19 @@ const CreateContact = () => {
   const [whatsApp, setWhatsApp] = useState("");
   const [image, setImage] = useState();
   const [update, setUpdate] = useState(false);
+
+  // let history = useHistory();
+
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    console.log("called");
+
+    setTimeout(() => {
+      // history.push("/");
+      navigate("/");
+    }, 1000);
+  };
 
   // const imageUrl = () => {
   //   document.querySelector("#file1").addEventListener("change", function () {
@@ -59,6 +72,7 @@ const CreateContact = () => {
       initialValues: initialValues,
       validationSchema: validationSchema,
       onSubmit: (values) => {
+        goHome();
         if (values.checkbox) {
           setWhatsApp("Yes");
         } else {

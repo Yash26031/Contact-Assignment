@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Add_Contact } from "../actions/Action";
 import { validationSchema } from "../FormikInput";
@@ -35,6 +35,16 @@ const EditContact = () => {
   //   whats_app: data[0]?.whats_app,
   // };
   const { index } = useParams();
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    console.log("called");
+
+    setTimeout(() => {
+      // history.push("/");
+      navigate("/");
+    }, 1000);
+  };
 
   console.log("myArray is", myArray);
 
@@ -90,14 +100,15 @@ const EditContact = () => {
 
     onSubmit: (values) => {
       setUpdate(true);
-      console.log(values);
+      goHome();
+      // console.log(values);
       var itemList = [];
       // let a = Cookies.get("list");
       let a = localStorage["list"];
-      console.log("a is ", a);
+      // console.log("a is ", a);
       if (a != undefined) {
         var b = JSON.parse(a);
-        console.log("b is ", b);
+        // console.log("b is ", b);
         let c = b.findIndex((item, ind) => ind == Number(index));
         // console.log("c is ", c);
         if (c !== -1) {
